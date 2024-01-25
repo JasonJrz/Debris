@@ -1,5 +1,5 @@
 {
-  "name": "fx",
+  "name": "eden",
   "type": "module",
   "scripts": {
     "start": "vite dev --open",
