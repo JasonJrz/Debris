@@ -1,0 +1,44 @@
+block variables
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width" initial-scale=1.0)
+    meta(name="description" content=meta.description)
+
+    link(rel="stylesheet" href="/src/styles/main.scss")
+
+    title=meta.title
+
+    link(rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png")
+    link(rel="manifest" href="/fav/site.webmanifest")
+    link(rel="mask-icon" href="/fav/safari-pinned-tab.svg" color="#5bbad5")
+
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="#000" media='(prefers-color-scheme: dark)')
+
+    meta(property="og:type" content="website")
+    meta(property="og:title" content=meta.title)
+    meta(property="og:description" content=meta.description)
+    //- meta(property="og:image" content=meta.image)
+    //- meta(property="og:url" content=meta.url)
+
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:site" content="@jasonjerez_")
+    meta(property="twitter:creator" content="@jasonjerez_")
+    meta(property="twitter:title" content=meta.title)
+    meta(property="twitter:description" content=meta.description)
+    //- meta(property="twitter:image" content=meta.image)
+    //- meta(property="twitter:url" content=meta.url)
+
+  body
+    //- include ../components/navigation.pug
+
+    canvas#gl
+    main#app(data-template=template)
+      block content
+
+    script(async src="/src/scripts/index.js" type="module")

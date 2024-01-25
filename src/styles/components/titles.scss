@@ -1,0 +1,51 @@
+
+%title-220 {
+  font-size: 22rem;
+  letter-spacing: -1.2rem;
+
+  @include media('<phone') {
+    font-size: 11rem;
+    letter-spacing: -0.7rem;
+  }
+}
+
+%title-210 {
+  font-size: 21.5rem;
+  letter-spacing: -1.2rem;
+
+  @include media('<phone') {
+    font-size: 11rem;
+    letter-spacing: -0.7rem;
+  }
+}
+
+%title-110 {
+  font-size: 11rem;
+  letter-spacing: -0.5rem;
+
+  @include media('<phone') {
+    font-size: 6.4rem;
+    letter-spacing: -0.3rem;
+  }
+}
+
+%title-100 {
+  font-size: 10rem;
+  letter-spacing: -0.5rem;
+
+  @include media('<phone') {
+    font-size: 5.4rem;
+    letter-spacing: -0.25rem;
+  }
+}
+
+%title-54 {
+  font-size: 5.4rem;
+  letter-spacing: -0.25rem;
+  line-height: 0.8;
+
+  @include media('<phone') {
+    font-size: 4.8rem;
+    letter-spacing: -0.2rem;
+  }
+}

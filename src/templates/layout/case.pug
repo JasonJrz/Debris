@@ -1,0 +1,59 @@
+
+extends ./base.pug
+
+block variables
+  - var template = 'case'
+
+block content 
+  .page#case
+    section
+      #c-h-c
+        .u
+          .r
+            span.c-h=title 
+      #c-i-h 
+        picture.c-media
+          source(srcset=main_image media="(max-width: 768px)")
+          img.c-i(data-src=main_image)
+        #info-w
+          each section in info 
+            if section.title === 'Role'
+              .info-c
+                span.info-l=section.title
+                each role in section.role 
+                  span=role
+            if section.title === 'Year'
+              .info-c
+                span.info-l=section.title
+                span=section.year
+            if section.title === 'Technologies'
+              .info-c
+                span.info-l=section.title
+                each role in section.tech 
+                  span=role
+            if section.title === 'Summary'
+              .info-c
+                span.info-l=section.title
+                p.info-p=section.summary
+            if section.title === 'link'
+              a(href=section.url target="_blank" rel="noreferrer noopener") Visit Site 
+
+    section
+      .cg-w
+        each image in images
+          figure.cg-media 
+            img.cg-media-i(src=`/images/cases/${image.url}`, alt=image.alt)
+    section.n
+      .u
+        #sn-w 
+          span.sn Next Project
+
+      #next-c 
+        a.next-l(href=next.url)
+          .next-item 
+            span=next.title
+            picture.c-media.next
+              source(srcset=next.image media="(max-width: 768px)")
+              img.c-i(data-src=next.image, alt="")
+            .progress-w 
+              .indicator

@@ -1,0 +1,13 @@
+{
+  "template": "templates/Layout/case.pug",
+  "navigation": {
+    "home": {
+      "name": "Index",
+      "route": "/"
+    },
+    "about": {
+      "name": "Approach",
+      "route": "/approach"
+    }
+  }
+}

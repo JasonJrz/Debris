@@ -1,0 +1,42 @@
+
+#nav {
+  gap: 27.5rem;
+  width: 100%;
+  z-index: 99;
+  display: flex;
+  padding: 4rem 4rem 0;
+  position: fixed;
+  align-items: flex-start;
+  mix-blend-mode: difference;
+
+  @include media('<phone') {
+    padding: 3rem;
+    gap: 20.5rem;
+  }
+}
+
+.a-l {
+  color: #F1F1F1;
+}
+
+#la {
+  font-size: 4.2rem;
+  letter-spacing: -0.2rem;
+  display: block;
+  line-height: 0.8;
+}
+
+#n-r {
+  display: flex;
+  flex-direction: column;
+}
+
+.n-t {
+  display: inline-block;
+  font-size: 2.4rem;
+
+  @include media('<phone') {
+    font-size: 3.2rem;
+    letter-spacing: -0.1rem;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "fx",
+  "type": "module",
+  "scripts": {
+    "start": "vite dev --open",
+    "build": "vituum build",
+    "preview": "vite preview --open",
+    "cleanup": "vituum cleanup"
+  },
+  "devDependencies": {
+    "@vituum/pug": "^0.1.2",
+    "include-media": "^2.0.0",
+    "sass": "^1.62.1",
+    "vite-plugin-glsl": "^1.1.2",
+    "vituum": "^0.0.37"
+  },
+  "dependencies": {
+    "animejs": "^3.2.1",
+    "glsl-noise": "^0.0.0",
+    "ogl": "^0.0.117"
+  }
+}

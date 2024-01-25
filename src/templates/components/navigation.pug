@@ -1,0 +1,8 @@
+
+nav#nav
+  a#la.a-l(href='/')
+    span Jason Jerez
+  #n-r
+    each page in navigation
+      a.a-l(href=page.route)
+        span.n-t=page.name

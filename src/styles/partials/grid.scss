@@ -1,0 +1,30 @@
+
+#g {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  opacity: 0.15;
+  z-index: 999;
+  padding: 0 4rem;
+  pointer-events: none;
+
+  @include media('<phone') {
+    padding: 0 3rem;
+  }
+}
+
+#g_w {
+  display: flex;
+  height: 100%;
+  gap: 2rem;
+}
+
+#g_w div {
+  position: relative;
+  width: 100%;
+  background-color: navy;
+}
+
+.o {
+  opacity: 0.3;
+}

@@ -1,0 +1,24 @@
+
+.char-w {
+  margin-left: -1.3rem;
+  padding-right: 0.9rem;
+  display: inline-block;
+  overflow: hidden;
+
+  .char {
+    display: inline-block;
+  }
+
+  @include media('<phone') {
+    margin-left: -1rem;
+  }
+}
+
+
+.word-w {
+  line-height: 1.2;
+
+  .word {
+    display: inline-flex;
+  }
+}

@@ -1,0 +1,19 @@
+
+//Normalize CSS
+@import './base/reset.scss';
+
+@import './utils/responsive.scss';
+@import './utils/split.scss';
+
+@import './components/titles.scss';
+@import './components/descriptions.scss';
+
+@import './base/fonts.scss';
+@import './base/base.scss';
+
+//Partials Styling
+@import './partials/navigation.scss';
+@import './partials/grid.scss';
+
+//Pages Styling
+@import './pages/home.scss';
