@@ -12,7 +12,7 @@ export default class App {
     this.controller = controller
     
     this.initPages()
-    // this.initGL()
+    this.initGL()
     // this.initLoader()
     this.setParams()
 
@@ -59,6 +59,8 @@ export default class App {
       template: this.controller.template,
       scroll: this.page.vs.scroll,
     })
+
+    // this.canvas.init(this.controller.template)
   }
 
   /**
@@ -84,5 +86,6 @@ export default class App {
 
   update(dt) {
     if(this.page) this.page.update(dt)
+    if(this.canvas) this.canvas.update(dt)
   }
 }

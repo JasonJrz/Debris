@@ -1,5 +1,7 @@
 
-import { Renderer, Camera, Transform } from 'ogl'
+// import { Renderer, Camera, Transform } from 'ogl'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import { listen } from '../utils/listener'
 import { win } from '../utils/win'
@@ -15,29 +17,13 @@ export default class Gl {
     this.createRen()
     this.createCam()
     this.createScene()
+    this.createLights()
+
+    this.createHome()
     
     this.onResize()
     
     listen(window, 'add', 'resize', this.onResize.bind(this))
-  }
-
-  /**
-   * Creates the WebGL page when the preloader emits a completed state
-   * this provides time for the preloader to load the assets(images, etc.)
-   */
-  init(template) {
-    if(template === 'home') {
-      this.createHome()
-    }
-
-    this.template = template
-  }
-
-  destroy(template) {
-    if(template === 'home') {
-      this.home.destroy()
-      this.home = null
-    }
   }
 
   /**
@@ -47,27 +33,45 @@ export default class Gl {
     const dpr = Math.min(devicePixelRatio, 2)
     const canvas = document.querySelector('#gl')
 
-    this.renderer = new Renderer({
-      dpr,
-      canvas,
-      alpha: true,
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
       antialias: true,
-      width: win.w,
-      height: win.h,
+      alpha: true
     })
 
-    this.gl = this.renderer.gl
+    this.renderer.setPixelRatio(dpr)
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
   }
 
   createCam() {
-    this.cam = new Camera(this.gl)
-    this.cam.position.z = 5
-  }
+    this.cam = new THREE.PerspectiveCamera(35, win.w / win.h, 0.1, 100)
+    this.cam.position.x = 8
+    this.cam.position.y = 5
+    this.cam.position.z = 8
 
+    this.controls = new OrbitControls(this.cam, this.renderer.domElement)
+  }
+  
   createScene() {
-    this.scene = new Transform(this.gl)
+    this.scene = new THREE.Scene()
   }
+  
+  createLights() {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4)
+    this.scene.add(ambientLight)
 
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8)
+    directionalLight.castShadow = true
+    directionalLight.shadow.mapSize.set(2048, 2048)
+    directionalLight.shadow.camera.far = 15
+    directionalLight.shadow.camera.left = - 7
+    directionalLight.shadow.camera.top = 7
+    directionalLight.shadow.camera.right = 7
+    directionalLight.shadow.camera.bottom = - 7
+    directionalLight.position.set(5, 5, 5)
+    this.scene.add(directionalLight)
+  }
   /**
    * Pages
    */
@@ -80,52 +84,13 @@ export default class Gl {
   }
 
   /**
-   * Transitions
-   */
-  transition(template, url) {
-    return new Promise(async resolve => {
-      this.homeToCase = template === 'home' && url.indexOf('case') > -1
-      this.caseToCase = template === 'case' && url.indexOf('case') > -1
-
-  
-      if(this.homeToCase) await this.home.transition(this.case)
-      if(this.caseToCase) await this.case.transition(this.oldCase)
-
-      resolve()
-    })
-  }
-
-  outro() {
-    return new Promise(async resolve => {
-      this.oldCase = this.case
-
-      if(this.home) await this.home.outro()
-      if(this.case) await this.case.outro()
-      if(this.approach) await this.approach.outro()
-
-      resolve()
-    })
-  }
-
-  intro() {
-    return new Promise(async resolve => {
-      if(this.home) await this.home.intro()
-      if(this.case) await this.case.intro()
-      if(this.approach) await this.approach.intro()
-
-      resolve()
-    })
-  }
-
-  /**
    * Events.
    */
   onResize() {
     this.renderer.setSize(win.w, win.h)
 
-    this.cam.perspective({
-      aspect: this.gl.canvas.width / this.gl.canvas.height
-    })
+    this.cam.aspect = win.w / win.h
+    this.cam.updateProjectionMatrix()
 
     const fov = this.cam.fov * (Math.PI / 180)
     const height = 2 * Math.tan(fov / 2) * this.cam.position.z
@@ -135,16 +100,12 @@ export default class Gl {
       height,
       width
     }
-
-    if(this.home) this.home.onResize(this.sizes)
   }
 
   update(scroll, progress) {
     if(this.home) this.home.update(scroll)
 
-    this.renderer.render({
-      scene:this.scene,
-      camera: this.cam
-    })
+    this.controls.update()
+    this.renderer.render(this.scene, this.cam)
   }
 }
