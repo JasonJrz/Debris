@@ -38,21 +38,21 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
 void main() {
   vec3 pos = position;
 
-  float timer = (sin(uTime * 0.1) + 1.0) * 0.5;
+  float timer = 1.0 - (sin(uTime * 0.1) + 1.0) * 0.5;
 
-  float prog = (pos.y + 1.0) * 0.5;
-  float locProg = clamp((0.5 - timer - 0.8 * prog) / 0.2, 0.0, 1.0);
+  float prog = (pos.y + .0) * 0.5;
+  float locProg = clamp((1.5 - timer - 0.8 * prog) / 0.2, 0.0, 1.0);
 
-  pos = pos - aCenter * (1.0 - locProg);
+  pos = (pos - aCenter) * locProg;
+  pos += 3.0 * normal * aRandom * timer;
 
   pos += aCenter;
-  pos = rotate(pos, vec3(0.0, 1.0, 0.0), aRandom * timer * 3.14 * 2.0);
-  // pos += normal * aRandom * timer;
+  pos = rotate(pos, vec3(0.0, 1.0, 0.0), aRandom * timer * 3.14 * 4.0);
 
   vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * viewMatrix * modelPosition;
 
-  vec4 modelMatrix = modelMatrix * vec4(pos, 0.0);
+  vec4 modelMatrix = modelMatrix * vec4(normal, 0.0);
 
   vUv = uv;
   vNormal = modelMatrix.xyz;

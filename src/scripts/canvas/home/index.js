@@ -122,13 +122,13 @@ export default class Home {
         this.obj.material = this.program
         this.obj.position.set(0, -0.5, 0)
         
-        // this.group.add(this.obj)
+        this.group.add(this.obj)
       })
     }
 
   createMesh() {
     this.mesh = new THREE.Mesh(this.geometry, this.program)
-    this.group.add(this.mesh)
+    // this.group.add(this.mesh)
   }
 
   onResize() {
