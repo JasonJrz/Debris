@@ -42,14 +42,14 @@ void main() {
   
   float timer = 1.0 - (sin(uTime * 0.1) + 1.0) * 0.5;
 
-  float prog = (pos.y + 0.0) * 0.5;
-  float locProg = clamp((1.5 - timer - 0.5 * prog) / 0.1, 0.0, 1.0);
+  float prog = (pos.x - 1.0) * 0.5;
+  float locProg = clamp((1.5 - timer - 0.8 * prog) / 0.2, 0.0, 1.0);
 
   pos = (pos - aCenter) * locProg;
-  pos += 3.0 * (normal - 10.0) * (0.5 - aRandom) * timer;
+  pos += 1.2 * (normal + 80.0) * (0.5 - aRandom) * timer;
 
-  pos = rotate(pos, vec3(0.0, 1.0, 0.0), aRandom * timer * 3.14 * 4.0);
   pos += aCenter;
+  pos = rotate(pos, vec3(0.0, 1.0, 0.0), aRandom * timer * 3.14 * 3.0);
 
   vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;
