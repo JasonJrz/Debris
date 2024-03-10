@@ -37,40 +37,25 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
 	return (m * vec4(v, 1.0)).xyz;
 }
 
-float sdBox( vec3 p, vec3 b )
-{
-  vec3 q = abs(p) - b;
-  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
-}
-
-vec3 calculateBoxPosition(vec3 position) {
-    // Assuming position is in the range [-1, 1] for each axis
-    vec3 boxSize = vec3(1.0); // Size of the box
-    return mix(-boxSize, boxSize, position * 0.5 + 0.5);
-}
-
 void main() {
   vec3 pos = position;
-
+  
   float timer = 1.0 - (sin(uTime * 0.1) + 1.0) * 0.5;
 
-  float prog = (pos.y + .0) * 0.5;
-  float locProg = clamp((1.5 - timer - 0.8 * prog) / 0.2, 0.0, 1.0);
+  float prog = (pos.y + 0.0) * 0.5;
+  float locProg = clamp((1.5 - timer - 0.5 * prog) / 0.1, 0.0, 1.0);
 
   pos = (pos - aCenter) * locProg;
-  pos += 3.0 * normal * aRandom * timer;
+  pos += 3.0 * (normal - 10.0) * (0.5 - aRandom) * timer;
 
-  pos += aCenter;
   pos = rotate(pos, vec3(0.0, 1.0, 0.0), aRandom * timer * 3.14 * 4.0);
+  pos += aCenter;
 
   vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;
   gl_Position = projectionMatrix * viewMatrix * modelPosition;
 
   vec4 modelMatrix = modelMatrix * vec4(normal, 0.0);
-
-  // gl_PointSize = 0.1 * uResolution.y;
-  // gl_PointSize *= (1.0 / - viewPosition.z);
 
   vUv = uv;
   vNormal = modelMatrix.xyz;
