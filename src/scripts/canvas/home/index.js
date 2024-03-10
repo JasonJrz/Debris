@@ -71,11 +71,14 @@ export default class Home {
       vertexShader: vertex,
       fragmentShader: fragment,
       uniforms: {
-        uTime: { value: 0 } 
+        uTime: { value: 0 },
+        uResolution: { value: [innerWidth, innerHeight] }
       },
 
       // wireframe: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      // blending: THREE.AdditiveBlending,
+      // depthWrite: false
     })
   }
   
@@ -116,18 +119,25 @@ export default class Home {
           centers.set([center.x, center.y, center.z], (i + 2) * 3)
         }
 
+        // this.buffer = new THREE.BufferGeometry()
+        // this.buffer.setAttribute('position', geometry.attributes.position)
+
         geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
         geometry.setAttribute('aCenter', new THREE.BufferAttribute(centers, 3))
 
         this.obj.material = this.program
         this.obj.position.set(0, -0.5, 0)
         
+        // this.mesh = new THREE.Points(this.buffer, this.program)
+        // this.group.add(this.mesh)
         this.group.add(this.obj)
       })
     }
 
   createMesh() {
-    this.mesh = new THREE.Mesh(this.geometry, this.program)
+    // this.mesh = new THREE.Mesh(this.geometry, this.program)
+    // this.mesh = new THREE.Points(this.geometry, this.program)
+    // this.mesh = new THREE.Points(this.buffer, this.program)
     // this.group.add(this.mesh)
   }
 
