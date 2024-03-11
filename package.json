@@ -1,5 +1,5 @@
 {
-  "name": "eden",
+  "name": "debris",
   "type": "module",
   "scripts": {
     "start": "vite dev --open",
