@@ -1,0 +1,12 @@
+{
+  "scripts/index.js": {
+    "file": "index.js",
+    "isEntry": true,
+    "src": "scripts/index.js"
+  },
+  "styles/main.scss": {
+    "file": "main.css",
+    "isEntry": true,
+    "src": "styles/main.scss"
+  }
+}

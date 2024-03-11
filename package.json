@@ -5,12 +5,14 @@
     "start": "vite dev --open",
     "build": "vituum build",
     "preview": "vite preview --open",
-    "cleanup": "vituum cleanup"
+    "cleanup": "vituum cleanup",
+    "deploy": "vercel --prod"
   },
   "devDependencies": {
     "@vituum/pug": "^0.1.2",
     "include-media": "^2.0.0",
     "sass": "^1.62.1",
+    "vercel": "^33.5.5",
     "vite-plugin-glsl": "^1.1.2",
     "vituum": "^0.0.37"
   },
@@ -18,7 +20,6 @@
     "animejs": "^3.2.1",
     "glsl-noise": "^0.0.0",
     "ogl": "^0.0.117",
-    "three": "^0.162.0",
-    "three-extend-material": "^1.0.0"
+    "three": "^0.162.0"
   }
 }
