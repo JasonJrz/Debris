@@ -2,6 +2,7 @@
 precision highp float;
 
 uniform vec3 cameraPosition;
+
 uniform float uTime;
 
 varying vec2 vUv;
@@ -13,11 +14,6 @@ varying vec3 vNormal;
 #include ./includes/lights/point.glsl
 
 void main() {
-  vec2 uv = gl_PointCoord;
-
-  float dist = length(uv - 0.5);
-  float alpha = 0.05 / dist - 0.1;
-
   vec3 normal = normalize(vNormal);
   vec3 viewDirection = normalize(vPosition - cameraPosition);
 
@@ -52,6 +48,5 @@ void main() {
   color *= light;
 
   gl_FragColor.rgb = color;
-  // gl_FragColor.rgb = vec3(1.0, 0.0, 0.0);
   gl_FragColor.a = 1.0;
 }

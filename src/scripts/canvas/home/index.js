@@ -1,10 +1,13 @@
 
 import * as THREE from 'three'
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 import vertex from '../../shaders/vertex-pg.glsl'
 import fragment from '../../shaders/fragment-pg.glsl'
-import { Vector3 } from 'three'
+import Model from './model'
+import Tester from './tester'
 
 // import andreObj from '../../../assets/andre.obj'
 
@@ -18,52 +21,8 @@ export default class Home {
     this.group = new THREE.Group()
     this.scene.add(this.group)
     
-    this.createGeometry()
     this.createProgram()
-    this.createMesh()
-    this.loadObj()
-  }
-
-  /**
-   * Create GL Images
-   */
-  createGeometry() {
-    // this.geometry = new THREE.IcosahedronGeometry(1,10)
-    this.geometry = new THREE.SphereGeometry(2, 32, 32).toNonIndexed()
-
-    this.len = this.geometry.attributes.position.count
-
-    this.randoms = new Float32Array(this.len * 3)
-    let centers = new Float32Array(this.len * 3)
-
-    for(let i = 0; i < this.len; i += 3) {
-      let rand = Math.random()
-
-      this.randoms[i] = rand
-      this.randoms[i + 1] = rand
-      this.randoms[i + 2] = rand
-
-      let x1 = this.geometry.attributes.position.array[i * 3]
-      let y1 = this.geometry.attributes.position.array[i * 3 + 1]
-      let z1 = this.geometry.attributes.position.array[i * 3 + 2]
-
-      let x2 = this.geometry.attributes.position.array[i * 3 + 3]
-      let y2 = this.geometry.attributes.position.array[i * 3 + 4]
-      let z2 = this.geometry.attributes.position.array[i * 3 + 5]
-
-      let x3 = this.geometry.attributes.position.array[i * 3 + 6]
-      let y3 = this.geometry.attributes.position.array[i * 3 + 7]
-      let z3 = this.geometry.attributes.position.array[i * 3 + 8]
-
-      let center = new THREE.Vector3(x1,y1,z1).add(new THREE.Vector3(x2, y2, z2)).add(new THREE.Vector3(x3, y3, z3)).divideScalar(3)
-
-      centers.set([center.x, center.y, center.z],  i * 3)
-      centers.set([center.x, center.y, center.z], (i + 1) * 3)
-      centers.set([center.x, center.y, center.z], (i + 2) * 3)
-    }
-
-    this.geometry.setAttribute('aRandom', new THREE.BufferAttribute(this.randoms, 1))
-    this.geometry.setAttribute('aCenter', new THREE.BufferAttribute(centers, 3))
+    this.loadModel()
   }
   
   createProgram() {
@@ -71,78 +30,80 @@ export default class Home {
       vertexShader: vertex,
       fragmentShader: fragment,
       uniforms: {
-        uTime: { value: 0 },
-        uResolution: { value: [innerWidth, innerHeight] }
+        uTime: { value: 0 }
       },
 
       // wireframe: true,
-      side: THREE.DoubleSide,
-      // blending: THREE.AdditiveBlending,
-      // depthWrite: false
+      // side: THREE.DoubleSide,
     })
   }
   
-    loadObj() {
-      const objLoader = new OBJLoader()
-      objLoader.load('/andre.obj', (obj) => {
-        this.obj = obj.children[0]
+  loadModel() {
+    this.model = new Model({
+      scene: this.scene,
+      sizes: this.sizes,
+      file: '/newBrendan.fbx',
+      program: this.program
+    })
 
-        const geometry = obj.children[0].geometry
-        const count = geometry.attributes.position.count
+    // this.tester = new Tester({
+    //   scene: this.scene,
+    //   sizes: this.sizes,
+    //   file: '/models/ico-more.glb',
+    //   program: this.program
+    // })
 
-        let randoms = new Float32Array(count)
-        let centers = new Float32Array(count * 3)
 
-        for(let i = 0; i < count; i += 3) {
-          let rand = Math.random()
+    // const objLoader = new OBJLoader()
+    // // const glbLoader = new GLTFLoader()
+    // // const dracoLoader = new DRACOLoader()
+    // // dracoLoader.setDecoderPath('./draco/')
+    // // glbLoader.setDRACOLoader(dracoLoader)
 
-          randoms[i] = rand
-          randoms[i + 1] = rand
-          randoms[i + 2] = rand
+    // objLoader.load('/andre.obj', (obj) => {
+    //   this.obj = obj.children[0]
+    //   // this.obj = obj.scene.children[0]
+      
+    //   const geometry = obj.children[0].geometry
+    //   const count = geometry.attributes.position.count
 
-          let x1 = this.geometry.attributes.position.array[i * 3]
-          let y1 = this.geometry.attributes.position.array[i * 3 + 1]
-          let z1 = this.geometry.attributes.position.array[i * 3 + 2]
+    //   let randoms = new Float32Array(count)
+    //   let centers = new Float32Array(count * 3)
 
-          let x2 = this.geometry.attributes.position.array[i * 3 + 3]
-          let y2 = this.geometry.attributes.position.array[i * 3 + 4]
-          let z2 = this.geometry.attributes.position.array[i * 3 + 5]
+    //   for(let i = 0; i < count; i += 3) {
+    //     let rand = Math.random()
 
-          let x3 = this.geometry.attributes.position.array[i * 3 + 6]
-          let y3 = this.geometry.attributes.position.array[i * 3 + 7]
-          let z3 = this.geometry.attributes.position.array[i * 3 + 8]
+    //     randoms[i] = rand
+    //     randoms[i + 1] = rand
+    //     randoms[i + 2] = rand
 
-          let center = new THREE.Vector3(x1,y1,z1).add(new THREE.Vector3(x2, y2, z2)).add(new THREE.Vector3(x3, y3, z3)).divideScalar(3)
+    //     let x1 = geometry.attributes.position.array[i * 3]
+    //     let y1 = geometry.attributes.position.array[i * 3 + 1]
+    //     let z1 = geometry.attributes.position.array[i * 3 + 2]
 
-          centers.set([center.x, center.y, center.z],  i * 3)
-          centers.set([center.x, center.y, center.z], (i + 1) * 3)
-          centers.set([center.x, center.y, center.z], (i + 2) * 3)
-        }
+    //     let x2 = geometry.attributes.position.array[i * 3 + 3]
+    //     let y2 = geometry.attributes.position.array[i * 3 + 4]
+    //     let z2 = geometry.attributes.position.array[i * 3 + 5]
 
-        // this.buffer = new THREE.BufferGeometry()
-        // this.buffer.setAttribute('position', geometry.attributes.position)
+    //     let x3 = geometry.attributes.position.array[i * 3 + 6]
+    //     let y3 = geometry.attributes.position.array[i * 3 + 7]
+    //     let z3 = geometry.attributes.position.array[i * 3 + 8]
 
-        geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
-        geometry.setAttribute('aCenter', new THREE.BufferAttribute(centers, 3))
+    //     let center = new THREE.Vector3(x1,y1,z1).add(new THREE.Vector3(x2, y2, z2)).add(new THREE.Vector3(x3, y3, z3)).divideScalar(3)
 
-        this.obj.material = this.program
-        this.obj.position.set(0, -0.5, 0)
-        
-        // this.mesh = new THREE.Points(this.buffer, this.program)
-        // this.group.add(this.mesh)
-        this.group.add(this.obj)
-      })
-    }
+    //     centers.set([center.x, center.y, center.z],  i * 3)
+    //     centers.set([center.x, center.y, center.z], (i + 1) * 3)
+    //     centers.set([center.x, center.y, center.z], (i + 2) * 3)
+    //   }
 
-  createMesh() {
-    // this.mesh = new THREE.Mesh(this.geometry, this.program)
-    // this.mesh = new THREE.Points(this.geometry, this.program)
-    // this.mesh = new THREE.Points(this.buffer, this.program)
-    // this.group.add(this.mesh)
-  }
+    //   geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
+    //   geometry.setAttribute('aCenter', new THREE.BufferAttribute(centers, 3))
 
-  onResize() {
-
+    //   this.obj.material = this.program
+    //   this.obj.position.set(0, -0.5, 0)
+      
+    //   this.group.add(this.obj)
+    // })
   }
 
   update() {
