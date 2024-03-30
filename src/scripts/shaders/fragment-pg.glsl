@@ -22,7 +22,7 @@ void main() {
 
   light += ambientLight(
     vec3(1.0), // Light Color
-    0.3        // Light Intensity
+    0.3      // Light Intensity
   );
 
   light += directionalLight(
