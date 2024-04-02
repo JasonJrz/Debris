@@ -7,9 +7,6 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import vertex from '../../shaders/vertex-pg.glsl'
 import fragment from '../../shaders/fragment-pg.glsl'
 import Model from './model'
-import Tester from './tester'
-
-// import andreObj from '../../../assets/andre.obj'
 
 export default class Home {
   constructor({ gl, scene, sizes, geometry }) {
@@ -45,14 +42,6 @@ export default class Home {
       file: '/newBrendan.fbx',
       program: this.program
     })
-
-    // this.tester = new Tester({
-    //   scene: this.scene,
-    //   sizes: this.sizes,
-    //   file: '/models/ico-more.glb',
-    //   program: this.program
-    // })
-
 
     // const objLoader = new OBJLoader()
     // // const glbLoader = new GLTFLoader()
