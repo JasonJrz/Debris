@@ -12,6 +12,7 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
 uniform float uTime;
+uniform float uProgress;
 
 varying vec2 vUv;
 varying vec3 vPosition;
@@ -23,19 +24,16 @@ void main() {
   vec3 pos = position;
 
   float timer = 1.0 - (sin(uTime * 0.2) + 1.0) * 0.5;
+  timer *= uProgress;
 
-  pos = (centroid * timer) + pos;
-  // pos = rotate(pos, centroid * axis * 3.0, uTime * 0.2);
+  pos += centroid * uProgress;
 
   // Calculate the spherical coordinates
   float phi = atan(pos.y, pos.x);
   float theta = acos(pos.z / length(pos));
 
-  // Apply displacement to the spherical coordinates
-  float displacement = sin(uTime * 0.1) * 0.5;
-  // float newRadius = length(pos) + length(centroid) * timer;
-  vec3 dispPos = pos + normalize(pos - centroid) * timer;
-  float newRadius = length(dispPos) + length(centroid);
+  // float newRadius = length(pos + centroid);
+  float newRadius = length(pos); 
 
   // Calculate the new position using the updated spherical coordinates
   pos = vec3(
@@ -47,10 +45,10 @@ void main() {
   vec3 rotationAxis = normalize(cross(centroid, axis));
 
   // Apply rotation around the centroid axis
-  pos = rotate(pos, rotationAxis, uTime * 0.3);
+  pos = rotate(pos, rotationAxis, uTime * 0.2);
 
   // Calculate the final position by blending between the original position and the spherical position based on timer
-  vec3 finalPos = mix(position, pos, timer);
+  vec3 finalPos = mix(position, pos, uProgress);
 
   vec4 modelPosition = modelMatrix * vec4(finalPos, 1.0);
   gl_Position = projectionMatrix * viewMatrix * modelPosition;
