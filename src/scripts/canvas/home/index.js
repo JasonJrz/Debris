@@ -64,6 +64,13 @@ export default class Home {
   }
 
   update() {
-    this.program.uniforms.uTime.value += 0.05
+    //Run uTime if the window has been clicked
+    //Stop if isClicked false
+    this.time = 0
+    
+    if(!this.isClicked) return
+    
+    this.time += 0.05
+    this.program.uniforms.uTime.value += this.time
   }
 }
