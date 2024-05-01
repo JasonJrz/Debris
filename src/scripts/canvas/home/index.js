@@ -2,7 +2,9 @@
 import * as THREE from 'three'
 
 import FX from '../../modules/fx'
+
 import { listen } from '../../utils/listener'
+import { win } from '../../utils/win'
 
 import Model from './model'
 
@@ -16,6 +18,8 @@ export default class Home {
     this.sizes = sizes
     this.geometry = geometry
 
+    this.mouse = new THREE.Vector2(-1, -1)
+
     this.group = new THREE.Group()
     this.scene.add(this.group)
     
@@ -23,7 +27,9 @@ export default class Home {
     this.loadModel()
 
     this.isClicked = false
+
     listen(window, 'add', 'click', this.updateProgress.bind(this))
+    listen(window, 'add', 'mousemove', this.onMM.bind(this))
   }
   
   createProgram() {
@@ -32,7 +38,8 @@ export default class Home {
       fragmentShader: fragment,
       uniforms: {
         uTime: { value: 0 },
-        uProgress: { value: 0 }
+        uProgress: { value: 0 },
+        uMouse: { value: this.mouse }
       },
 
       // wireframe: true,
@@ -44,12 +51,12 @@ export default class Home {
     this.model = new Model({
       scene: this.scene,
       sizes: this.sizes,
-      file: '/newBrendan.fbx',
-      program: this.program
+      program: this.program,
+      file: '/newBrendan.fbx'
     })
   }
 
-  updateProgress(event) {
+  updateProgress() {
     const fx = new FX({})
 
     fx.add(this.program.uniforms.uProgress, {
@@ -61,6 +68,13 @@ export default class Home {
     })
 
     this.isClicked = !this.isClicked 
+  }
+
+  onMM(event) {
+    const x = (event.clientX / win.w) * 2 - 1
+    const y = -(event.clientY / win.h) * 2 + 1
+
+    this.mouse.set(x, y)
   }
 
   update() {

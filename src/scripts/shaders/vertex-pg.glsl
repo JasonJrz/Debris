@@ -26,7 +26,7 @@ void main() {
   float timer = 1.0 - (sin(uTime * 0.2) + 1.0) * 0.5;
   timer *= uProgress;
 
-  pos += centroid * uProgress;
+  // pos += centroid * uProgress;
 
   // Calculate the spherical coordinates
   float phi = atan(pos.y, pos.x);
@@ -44,8 +44,11 @@ void main() {
 
   vec3 rotationAxis = normalize(cross(centroid, axis));
 
+  pos += centroid * uProgress;
+  
   // Apply rotation around the centroid axis
   pos = rotate(pos, rotationAxis, uTime * 0.2);
+
 
   // Calculate the final position by blending between the original position and the spherical position based on timer
   vec3 finalPos = mix(position, pos, uProgress);
