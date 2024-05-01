@@ -23,6 +23,7 @@ varying vec3 vNormal;
 void main() {
   vec3 pos = position;
 
+  //0->1 values
   float timer = 1.0 - (sin(uTime * 0.2) + 1.0) * 0.5;
   timer *= uProgress;
 
